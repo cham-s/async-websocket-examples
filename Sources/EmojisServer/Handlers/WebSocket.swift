@@ -11,8 +11,6 @@ enum WebSocketHandlerEnvironment {
   )
   @TaskLocal
   static var tools: ChannelTools?
-  @TaskLocal
-  static var streamTask: Task<Void, Error>?
 }
 
 @available(macOS 14, iOS 17, tvOS 17, watchOS 10, *)
