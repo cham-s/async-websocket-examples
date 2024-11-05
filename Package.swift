@@ -2,8 +2,6 @@
 
 import PackageDescription
 
-import PackageDescription
-
 let package = Package(
   name: "async-websocket-examples",
   platforms: [

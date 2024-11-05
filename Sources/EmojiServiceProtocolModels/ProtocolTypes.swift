@@ -39,16 +39,17 @@ public struct GetRandomEmojisResponse: Sendable, Codable, Equatable {
 }
 
 // MARK: - Event
-@CasePathable
+
 /// An event coming from the server.
+@CasePathable
 public enum Event: Sendable, Codable, Equatable {
   /// The current main emoji did changed.
   case emojiDidChangedEvent(EmojiDidChangedEvent)
 }
 
 // MARK: - Request
-@CasePathable
 /// A request to be sent to the server.
+@CasePathable
 public enum Request: Sendable, Codable, Equatable {
   /// Gets a random list of emojis based on the requested count.
   case getRandomEmojiList(GetRandomEmojisRequest)
@@ -59,8 +60,8 @@ public enum Request: Sendable, Codable, Equatable {
 }
 
 // MARK: - Response
-@CasePathable
 /// A response resulting from a previous request.
+@CasePathable
 public enum Response: Sendable, Codable, Equatable {
   /// A list of emojis based on the requested count.
   case getRandomEmojiList(GetRandomEmojisResponse)
