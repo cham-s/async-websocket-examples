@@ -19,7 +19,7 @@ extension EmojiServer {
       try await self.sendMessage(.response(response))
       
     case .startStream:
-      // Streams a random emoji every half of a second.
+      // Streams a random emoji every second.
       self.startStream.withValue {
         $0 = Task {
           let message = Message.response(.succcess(.startStream))
