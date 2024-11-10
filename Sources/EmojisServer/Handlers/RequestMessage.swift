@@ -20,7 +20,7 @@ extension EmojiServer {
       
     case .startStream:
       // Streams a random emoji every second.
-      self.startStream.withValue {
+      self.streamTask.withValue {
         $0 = Task {
           let message = Message.response(.succcess(.startStream))
           try await self.sendMessage(message)
@@ -36,7 +36,10 @@ extension EmojiServer {
       
     case .stopStream:
       // Stops the stream of emojis.
-      self.startStream.value?.cancel()
+      self.streamTask.withValue {
+        $0?.cancel()
+        $0 = nil
+      }
       let message = Message.response(.succcess(.stopStream))
       try await self.sendMessage(message)
     }

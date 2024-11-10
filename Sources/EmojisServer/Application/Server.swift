@@ -10,7 +10,7 @@ import NIOWebSocket
 struct EmojiServer {
   @Dependency(\.continuousClock) var clock
   
-  let startStream = LockIsolated<Task<Void, Error>?>(nil)
+  let streamTask = LockIsolated<Task<Void, Error>?>(nil)
   let host: String
   let port: Int
   let eventLoopGroop: MultiThreadedEventLoopGroup
