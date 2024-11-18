@@ -97,7 +97,7 @@ struct MainApp {
 
 extension AsyncStream where Element == AsyncWebSocketClient.Frame {
   /// Transforms a stream of Frame into a stream of Emoji Message
-  func emojiMessage() throws -> AsyncStream<Message> {
+  func emojiMessage() -> AsyncStream<Message> {
     self
       .log(action: frameLogger)
       .success(of: Message.self)
