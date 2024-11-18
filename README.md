@@ -42,7 +42,7 @@ Demonstrates some uses of the library.
 
 - [Ping Interval](#interval)
 
-- [Listen Operator](#listen)
+- [On Operator](#listen)
 
 - [Log Operator](#log)
 
@@ -138,7 +138,7 @@ struct MainApp {
 
 #### Ping Interval<a name="interval"></a>
 
-Some servers requires the client to ping them at a specified interval to keep the connection alive. This demo shows how to set up this operation.
+Some servers require the client to ping them at a specified interval to keep the connection alive. This demo shows how to set up this operation.
 
 ```shell
 swift run PingIntervalDemo
@@ -185,12 +185,12 @@ struct MainApp {
 }
 ```
 
-#### Listen Operator<a name="listen"></a>
+#### On Operator<a name="listen"></a>
 
 Demonstrates the use of the `on` operator to focus on a particular event.
 
 ```shell
-swift run ListenOperatorDemo
+swift run OnOperatorDemo
 ```
 
 ```swift
@@ -324,36 +324,33 @@ struct MainApp {
     )
 
     for await _ in connection
-      .log()
-      .on(\.connected)
-    {
-      // Starts listening for emoji messages
-      for await message in try await webSocket.receive(id)
-        .emojiMessage() {
-        switch message {
-
-        case let .welcome(welcome):
-          print(welcome.message)
-          startStreamTask.withValue {
-            $0 = Task {
-              try await request(id: id, request: .startStream)
-            }
-          }
-
-        case let .event(event):
-          switch event {
-          case let .emojiDidChangedEvent(emoji):
-            print("New emoji: ", emoji.newEmoji)
-          }
-
-        case let .response(result):
-          try await onResponse(result)
-        case .request:
-          // Not handled by the client
-          break
+  .log()
+  .on(\.connected)
+{
+  let messages = try await webSocket.receive(id).emojiMessage()
+  // Starts listening for emoji messages
+  for await message in messages {
+    switch message {
+    case let .welcome(welcome):
+      print(welcome.message)
+      startStreamTask.withValue {
+        $0 = Task {
+          try await request(id: id, request: .startStream)
         }
       }
+    case let .event(event):
+      switch event {
+      case let .emojiDidChangedEvent(emoji):
+        print("New emoji: ", emoji.newEmoji)
+      }
+    case let .response(result):
+      try await onResponse(result)
+    case .request:
+      // Not handled by the client
+      break
     }
+  }
+}
 
     // Awaiting for possible error thrown during tasks execution
     try await startStreamTask.value?.value

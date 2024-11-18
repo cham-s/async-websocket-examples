@@ -31,11 +31,11 @@ struct MainApp {
       .log()
       .on(\.connected)
     {
+      let messages = try await webSocket.receive(id).emojiMessage()
+
       // Starts listening for emoji messages
-      for await message in try await webSocket.receive(id)
-        .emojiMessage() {
+      for await message in messages {
         switch message {
-          
         case let .welcome(welcome):
           print(welcome.message)
           startStreamTask.withValue {
@@ -43,13 +43,13 @@ struct MainApp {
               try await request(id: id, request: .startStream)
             }
           }
-          
+
         case let .event(event):
           switch event {
           case let .emojiDidChangedEvent(emoji):
             print("New emoji: ", emoji.newEmoji)
           }
-          
+
         case let .response(result):
           try await onResponse(result)
         case .request:

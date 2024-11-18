@@ -15,7 +15,7 @@ let package = Package(
     // Executable Demos
     .executable(name: "EmojisDemo", targets: ["EmojisDemo"]),
     .executable(name: "GettingStartedDemo", targets: ["GettingStartedDemo"]),
-    .executable(name: "ListenOperatorDemo", targets: ["ListenOperatorDemo"]),
+    .executable(name: "OnOperatorDemo", targets: ["OnOperatorDemo"]),
     .executable(name: "LogOperatorDemo", targets: ["LogOperatorDemo"]),
     .executable(name: "PingIntervalDemo", targets: ["PingIntervalDemo"]),
 
@@ -57,7 +57,7 @@ let package = Package(
     ),
     
     .executableTarget(
-      name: "ListenOperatorDemo",
+      name: "OnOperatorDemo",
       dependencies: [
         .product(name: "AsyncWebSocketClient", package: "async-websocket"),
         .product(name: "AsyncWebSocketClientLive", package: "async-websocket"),
