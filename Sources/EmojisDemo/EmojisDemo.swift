@@ -61,6 +61,7 @@ struct MainApp {
     
     // Awaiting for possible error thrown during tasks execution
     try await startStreamTask.value?.value
+    startStreamTask.withValue { $0 = nil }
     
     @Sendable
     func onResponse(_ result: Response.Result) async throws {
@@ -99,12 +100,7 @@ extension AsyncStream where Element == AsyncWebSocketClient.Frame {
   func emojiMessage() throws -> AsyncStream<Message> {
     self
       .log(action: frameLogger)
-      .on(\.message.text)
-      .map {
-        let data = $0.data(using: .utf8)!
-        return try JSONDecoder().decode(Message.self, from: data)
-      }
-      .eraseToStream()
+      .success(of: Message.self)
   }
 }
 

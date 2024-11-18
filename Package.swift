@@ -12,10 +12,12 @@ let package = Package(
     .visionOS(.v1),
   ],
   products: [
+    // Executable Demos
     .executable(name: "EmojisDemo", targets: ["EmojisDemo"]),
     .executable(name: "GettingStartedDemo", targets: ["GettingStartedDemo"]),
     .executable(name: "ListenOperatorDemo", targets: ["ListenOperatorDemo"]),
     .executable(name: "LogOperatorDemo", targets: ["LogOperatorDemo"]),
+    .executable(name: "PingIntervalDemo", targets: ["PingIntervalDemo"]),
 
     // Server Demos
     .executable(name: "EmojisServer", targets: ["EmojisServer"]),
@@ -31,7 +33,7 @@ let package = Package(
     .package(url: "https://github.com/pointfreeco/swift-custom-dump.git", from: "1.1.2"),
     .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.2.2"),
     .package(url: "https://github.com/pointfreeco/swift-gen.git", from: "0.4.0"),
-    .package(url: "https://github.com/cham-s/async-websocket.git", from: "0.1.0-beta"),
+    .package(url: "https://github.com/cham-s/async-websocket.git", from: "0.3.0-beta"),
   ],
   
   targets: [
@@ -72,6 +74,14 @@ let package = Package(
       ]
     ),
     
+      .executableTarget(
+        name: "PingIntervalDemo",
+        dependencies: [
+          .product(name: "AsyncWebSocketClient", package: "async-websocket"),
+          .product(name: "AsyncWebSocketClientLive", package: "async-websocket"),
+          .product(name: "AsyncWebSocketOperators", package: "async-websocket"),
+        ]
+      ),
     // MARK: Server Demos
     .executableTarget(
       name: "EmojisServer",

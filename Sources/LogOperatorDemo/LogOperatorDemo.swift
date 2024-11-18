@@ -13,7 +13,6 @@ import Foundation
 // swift run TimeServer
 // swift run EchoServer
 
-import Logging
 @main
 @MainActor
 struct MainApp {
