@@ -174,14 +174,27 @@ private final class WebSocketTimeHandler: @unchecked Sendable, ChannelInboundHan
     context: ChannelHandlerContext,
     frame: WebSocketFrame
   ) {
-//    var frameData = frame.data
+    var frameData = frame.data
+    let maskingKey = frame.maskKey
     
+    if let maskingKey = maskingKey {
+      frameData.webSocketUnmask(maskingKey)
+    }
+
     switch frame.opcode {
     case .connectionClose:
+      customDump(frameData, name: "[Received close]")
       self.receivedClose(context: context, frame: frame)
     case .ping:
       self.pong(context: context, frame: frame)
+    case .pong:
+      customDump(frameData, name: "[Received pong]")
+    case .binary:
+      customDump(frameData, name: "[Received binary]")
+    case .text:
+      customDump(frameData, name: "[Received text]")
     default:
+      print("Received unhandled opcode: \(frame.opcode)")
       break
     }
   }
